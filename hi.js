@@ -1,1 +1,0 @@
-console.log("Sab thik. Tum kaise?")
