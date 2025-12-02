@@ -223,7 +223,7 @@ model Subscription {
   orderId           String?            // Lemon Squeezy order ID
   customerId        String?            // Lemon Squeezy customer ID
   currentPeriodEnd  DateTime?
-  frequency         String
+  frequency         String             @default("monthly")
   cancelAtPeriodEnd Boolean            @default(false)
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
