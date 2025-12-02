@@ -1,3 +1,4 @@
+import { Description } from "@radix-ui/react-dialog";
 import {z} from "zod";
 
 export const userSchema = z.object({
@@ -8,4 +9,9 @@ export const userSchema = z.object({
     email: z.email("Invalid Email Address"),
     role: z.string().min(1, "Role is required"),
     image: z.string().optional()
+})
+
+export const workspaceSchema = z.object({
+    name:z.string().min(2,"Name is required").max(100,"Maximum is 100character"),
+    description:z.string().optional(),
 })
