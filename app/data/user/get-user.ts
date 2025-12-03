@@ -5,7 +5,7 @@ export const getUserById = async () => {
   try {
     const { user } = await userRequired();
     if (!user) {
-        throw new Error("User is not authenticated")
+      throw new Error("User is not authenticated");
     }
 
     const data = await db.user.findUnique({

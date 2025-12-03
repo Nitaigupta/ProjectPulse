@@ -1,13 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
-import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
+import {
+  RegisterLink,
+  LoginLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Link from "next/link";
 
 export default async function Home() {
-  const {isAuthenticated} = getKindeServerSession();
+  const { isAuthenticated } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
-
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center">
@@ -26,14 +28,13 @@ export default async function Home() {
           </p>
 
           <div className="flex items-center justify-center gap-4 mt-6">
-            {
-              isLoggedIn ? (
+            {isLoggedIn ? (
               <>
                 <Button asChild>
                   <Link href="/workspace">Go to Workspace</Link>
                 </Button>
               </>
-              ):( 
+            ) : (
               <>
                 <Button>
                   <RegisterLink>Get Started</RegisterLink>
@@ -43,8 +44,7 @@ export default async function Home() {
                   <LoginLink>Sign In</LoginLink>
                 </Button>
               </>
-              )
-            }
+            )}
           </div>
         </div>
       </div>

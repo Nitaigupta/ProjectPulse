@@ -22,7 +22,7 @@ const WorkspaceIdLayout = async ({ children, params }: Props) => {
   return (
     <SidebarProvider>
       <div className="w-full flex bg-background h-screen">
-        <AppSidebarContainer data={data} workspaceId={workspaceId} />
+        <AppSidebarContainer data={data as any} workspaceId={workspaceId} />
 
         <main className="w-full overflow-y-auto min-h-screen">
           <div className="flex items-start">
@@ -35,9 +35,7 @@ const WorkspaceIdLayout = async ({ children, params }: Props) => {
             email={data?.email as string}
             image={data?.image as string}
           /> */}
-          <div className="p-0 md:p-4 pt-2">
-            {children  }
-          </div>
+          <div className="p-0 md:p-4 pt-2">{children}</div>
         </main>
       </div>
     </SidebarProvider>
