@@ -5,12 +5,16 @@ import {
   Sidebar,
   SidebarGroupLabel,
   SidebarHeader,
+  SidebarContent,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { WorkspaceSelector } from "./workspace-selector";
+import { Nav } from "react-day-picker";
+import { NavMain } from "./nav-main";
+import { NavProjects } from "./nav-project-list";
 
 export const AppSidebar = ({
   data,
@@ -54,6 +58,10 @@ export const AppSidebar = ({
           </div>
           <WorkspaceSelector workspaces={data.workspaces} />
         </SidebarHeader>
+        <SidebarContent>
+          <NavMain/>
+          <NavProjects projects={projects} workspaceMembers={workspaceMembers} />
+        </SidebarContent>
       </Sidebar>
     </>
   );
