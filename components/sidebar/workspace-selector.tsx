@@ -2,19 +2,17 @@
 
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { WorkspaceProps } from "@/utils/types";
-import { Check, Sidebar } from "lucide-react";
+import { Check, ChevronsUpDown, Sidebar } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
+import { WorkspaceAvatar } from "../workspace/workspace-avatar";
 import {
+  DropdownMenuItem,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { WorkspaceAvatar } from "../workspace/workspace-avatar";
-import { DropdownMenuItem } from "../ui/dropdown-menu";
+} from "../ui/dropdown-menu";
 
 export const WorkspaceSelector = ({
   workspaces,
@@ -27,18 +25,19 @@ export const WorkspaceSelector = ({
     WorkspaceProps | undefined
   >(undefined);
 
-  const onWorkspaceSelect = (id: string) => {
+  const onSelect = (id: string) => {
     setSelectedWorkspace(workspaces.find((workspace) => workspace.id === id));
     router.push(`/workspace/${id}`);
   };
   useEffect(() => {
     if (workspaceId && workspaces) {
-      setSelectedWorkspace(
-        workspaces.find((workspace) => workspace.workspaceId === workspaceId)
+      const workspace = workspaces.find(
+        (workspace) => workspace.workspaceId === workspaceId
       );
+      setSelectedWorkspace(workspace);
     }
   }, [workspaceId, workspaces]);
-  
+
   return (
     <>
       <SidebarMenu>
@@ -50,11 +49,12 @@ export const WorkspaceSelector = ({
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               >
                 <WorkspaceAvatar
-                  name={(selectedWorkspace?.workspace?.name as string) || "w"}
+                  name={(selectedWorkspace?.workspace?.name as string) || "W"}
                 />
                 <div className="font-semibold text-muted-foreground">
                   {selectedWorkspace?.workspace.name}
                 </div>
+                <ChevronsUpDown className="ml-auto" />
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -62,10 +62,13 @@ export const WorkspaceSelector = ({
               className="w-[--radix-dropdown-menu-trigger-width]"
             >
               {workspaces?.map((workspace) => (
-                <DropdownMenuItem key={workspace.id} onSelect={() => onWorkspaceSelect(workspace.workspaceId)}>
+                <DropdownMenuItem
+                  key={workspace.id as string}
+                  onSelect={() => onSelect(workspace.workspaceId)}
+                >
                   <div className="flex flex-row items-center gap-2">
                     <WorkspaceAvatar
-                      name={(workspace?.workspace?.name as string) || "w"}
+                      name={(workspace?.workspace?.name as string) || "W"}
                     />
                     <p>{workspace?.workspace?.name}</p>
                   </div>
