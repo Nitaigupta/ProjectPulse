@@ -27,21 +27,18 @@ export const WorkspaceSelector = ({
     WorkspaceProps | undefined
   >(undefined);
 
-  const onSelect = (id: string) => {
+  const onWorkspaceSelect = (id: string) => {
     setSelectedWorkspace(workspaces.find((workspace) => workspace.id === id));
     router.push(`/workspace/${id}`);
   };
   useEffect(() => {
     if (workspaceId && workspaces) {
-      const workspace = workspaces.find(
-        (workspace) => workspace.id === workspaceId
+      setSelectedWorkspace(
+        workspaces.find((workspace) => workspace.workspaceId === workspaceId)
       );
-      setSelectedWorkspace(workspace);
     }
   }, [workspaceId, workspaces]);
-
-  console.log(workspaces);
-
+  
   return (
     <>
       <SidebarMenu>
@@ -55,7 +52,7 @@ export const WorkspaceSelector = ({
                 <WorkspaceAvatar
                   name={(selectedWorkspace?.workspace?.name as string) || "w"}
                 />
-                <div className="font-semibold">
+                <div className="font-semibold text-muted-foreground">
                   {selectedWorkspace?.workspace.name}
                 </div>
               </SidebarMenuButton>
@@ -65,8 +62,8 @@ export const WorkspaceSelector = ({
               className="w-[--radix-dropdown-menu-trigger-width]"
             >
               {workspaces?.map((workspace) => (
-                <DropdownMenuItem key={workspace.id as string}>
-                  <div>
+                <DropdownMenuItem key={workspace.id} onSelect={() => onWorkspaceSelect(workspace.workspaceId)}>
+                  <div className="flex flex-row items-center gap-2">
                     <WorkspaceAvatar
                       name={(workspace?.workspace?.name as string) || "w"}
                     />

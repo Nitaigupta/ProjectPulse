@@ -1,4 +1,5 @@
 import { Description } from "@radix-ui/react-dialog";
+import { de } from "date-fns/locale";
 import { z } from "zod";
 
 export const userSchema = z.object({
@@ -20,4 +21,13 @@ export const workspaceSchema = z.object({
     .min(2, "Name is required")
     .max(100, "Maximum is 100 character"),
   description: z.string().optional(),
+});
+
+export const projectSchema = z.object({
+  name: z
+    .string()
+    .min(3, {message:"Workspace name must be at least 3 characters"}),
+  workspaceId: z.string().optional(),
+  description: z.string().optional(),
+  memberAccess: z.array(z.string()).optional(),
 });
