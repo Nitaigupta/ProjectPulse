@@ -9,7 +9,7 @@ export const getWorkspaceProjectsByWorkspaceId = async (
     const { user } = await userRequired();
 
     if (!user) {
-        throw new Error("User is not authenticated")
+      throw new Error("User is not authenticated");
     }
 
     const isUserMember = await db.workspaceMember.findUnique({
@@ -31,32 +31,31 @@ export const getWorkspaceProjectsByWorkspaceId = async (
         : {
             projectAccess: {
               some: {
-                hasAccess:true,
-                workspaceMember:{userId:user.id,workspaceId}
+                hasAccess: true,
+                workspaceMember: { userId: user.id, workspaceId },
               },
             },
           };
-          const [projects, workspaceMembers] = await Promise.all([
-  db.project.findMany({
-    where: query,
-    select: { name: true, id: true, workspaceId: true, description: true },
-  }),
-  db.workspaceMember.findMany({
-    where: { workspaceId },
-    include: {
-      user: {
-        select: { name: true, id: true, image: true },
-      },
-    },
-  }),
-]);
+    const [projects, workspaceMembers] = await Promise.all([
+      db.project.findMany({
+        where: query,
+        select: { name: true, id: true, workspaceId: true, description: true },
+      }),
+      db.workspaceMember.findMany({
+        where: { workspaceId },
+        include: {
+          user: {
+            select: { name: true, id: true, image: true },
+          },
+        },
+      }),
+    ]);
 
-return { projects, workspaceMembers };
-// return {
-//   projects: projects ?? [],
-//   workspaceMembers: workspaceMembers ?? [],
-// };
-
+    return { projects, workspaceMembers };
+    // return {
+    //   projects: projects ?? [],
+    //   workspaceMembers: workspaceMembers ?? [],
+    // };
   } catch (error) {
     console.log(error);
     return {
