@@ -46,7 +46,7 @@ export const WorkspaceSelector = ({
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
                 size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                className="w-full data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               >
                 <WorkspaceAvatar
                   name={(selectedWorkspace?.workspace?.name as string) || "W"}
@@ -58,11 +58,13 @@ export const WorkspaceSelector = ({
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              align="start"
-              className="w-[--radix-dropdown-menu-trigger-width]"
+                align="start"
+                sideOffset={4}
+                className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-[var(--radix-dropdown-menu-trigger-width)]"
             >
               {workspaces?.map((workspace) => (
                 <DropdownMenuItem
+                  className="w-full flex items-center gap-2"
                   key={workspace.id as string}
                   onSelect={() => onSelect(workspace.workspaceId)}
                 >

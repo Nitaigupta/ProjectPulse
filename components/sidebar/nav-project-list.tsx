@@ -4,7 +4,7 @@ import { ProjectProps, WorkspaceMembersProps } from "@/utils/types";
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "../ui/sidebar";
 import { usePathname } from "next/navigation";
 import { Sidebar } from "lucide-react";
-import { CreateProjectForm } from "../projects/add-project-form";
+import { CreateProjectForm } from "../projects/create-project-form";
 
 export const NavProjects=({projects, workspaceMembers}:{
     projects: ProjectProps[];
