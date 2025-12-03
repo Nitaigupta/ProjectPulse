@@ -45,7 +45,7 @@ export const CreateWorkspaceForm = () => {
       setPending(true);
       const { data: res } = await createNewWorkspace(data);
       toast.success("Workspace created successfully!");
-      router.push(`/workspaces/${res?.id as string}`);
+      router.push(`/workspace/${res?.id as string}`);
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong. Please try again.");
