@@ -52,12 +52,9 @@ export const getWorkspaceProjectsByWorkspaceId = async (
     ]);
 
     return { projects, workspaceMembers };
-    // return {
-    //   projects: projects ?? [],
-    //   workspaceMembers: workspaceMembers ?? [],
-    // };
+
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       success: false,
       error: true,
