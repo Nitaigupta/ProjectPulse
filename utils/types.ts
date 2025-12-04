@@ -1,6 +1,6 @@
-import { AccessLevel, Workspace } from "@/lib/generated/prisma/client";
+import { AccessLevel, WorkspaceMember } from "@/lib/generated/prisma/client";
 
-export interface WorkspaceMembersProps extends Workspace {
+export interface WorkspaceMembersProps extends WorkspaceMember {
   user: {
     id: string;
     name: string;
@@ -36,7 +36,7 @@ export interface ProjectProps {
 }
 
 export interface WorkspaceProps {
-  id: String;
+  id: string;
   createdAt: Date;
   userId: string;
   workspaceId: string;
