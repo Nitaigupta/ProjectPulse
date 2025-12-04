@@ -28,7 +28,7 @@ export const NavProjects=({projects, workspaceMembers}:{
                                 <a href={href}
                                 className={pathname===href
                                     ?"text-primary-foreground font-semibold"
-                                    :"text-muted-foreground hover:text-primary-foreground"
+                                    :"text-muted-foreground"
                                 }
                                 >
                                     {proj?.name}
