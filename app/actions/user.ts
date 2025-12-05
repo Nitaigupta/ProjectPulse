@@ -15,8 +15,9 @@ export const createUser = async (data: UserDataType) => {
 
   const validatedData = userSchema.parse(data);
 
-  const userData = await db.user.create({
-    data: {
+  const userData = await db.user.upsert({
+    where: { id: user.id },
+    create: {
       id: user.id,
       email: user.email as string,
       name: validatedData.name,
@@ -35,7 +36,31 @@ export const createUser = async (data: UserDataType) => {
         },
       },
     },
-
+    update: {
+      email: user.email as string,
+      name: validatedData.name,
+      about: validatedData.about,
+      country: validatedData.country,
+      industryType: validatedData.industryType,
+      role: validatedData.role,
+      onboardingCompleted: true,
+      image: user?.picture || "",
+      subscription: {
+        upsert: {
+          create: {
+            plan: "FREE",
+            status: "ACTIVE",
+            currentPeriodEnd: new Date(),
+            cancelAtPeriodEnd: false,
+          },
+          update: {
+            plan: "FREE",
+            status: "ACTIVE",
+            cancelAtPeriodEnd: false,
+          },
+        },
+      },
+    },
     select: {
       id: true,
       name: true,
