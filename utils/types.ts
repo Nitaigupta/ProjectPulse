@@ -45,3 +45,7 @@ export interface WorkspaceProps {
     name: string;
   };
 }
+
+export interface CommentProps extends Comment{
+  user:{id:string;name:string;image:string};
+}

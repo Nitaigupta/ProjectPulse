@@ -1,0 +1,62 @@
+"use server"
+
+import {TaskFormValues} from "@/components/task/create-task-dialog";    
+import {db} from "@/lib/db";
+import { taskFormSchema } from "@/lib/schema";
+import { userRequired } from "../data/user/is-user-authenticated";
+
+export const createNewTask=async (data:TaskFormValues, workspaceId:string, projectId:string)=>{
+    const {user}=await userRequired();  
+    if(!user){
+        throw new Error("User must be logged in to create a task.");
+    }
+    const validatedData=taskFormSchema.parse(data);
+    const isUserMember=await db.workspaceMember.findUnique({
+        where:{
+            userId_workspaceId:{    
+                userId:user.id,
+                workspaceId
+            }
+        }
+    });  
+    if(!isUserMember){
+        throw new Error("Unauthorized to create task in this workspace.");
+    }
+    const tasks=await db.task.findMany({
+        where:{
+            projectId},
+        });
+
+        const lastTask=tasks?.filter((task)=>task.status===data.status).sort((a,b)=>b.position - a.position)[0];
+
+        const position=lastTask?lastTask.position+1000:1000;
+
+
+        const task=await db.task.create({
+            data:{
+                title:validatedData.title,
+                description:validatedData.description,
+                startDate:new Date(validatedData.startDate),
+                dueDate:new Date(validatedData.dueDate),
+                projectId,
+                assigneeId:validatedData.assigneeId || null,
+                status:validatedData.status,
+                priority:validatedData.priority,
+           
+                position,
+            },
+            include:{
+                project:true,
+            }
+        });
+
+        await db.activity.create({
+            data:{
+                type:"TASK_CREATED",
+                description:`created task ${validatedData.title}`,
+                projectId,
+                userId:user.id,} 
+            });
+                
+        return {success:true};
+    }
