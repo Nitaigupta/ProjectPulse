@@ -1,4 +1,5 @@
 import { getUserWorkspaces } from "@/app/data/workspace/get-user-workspace";
+import { Navbar } from "@/components/navbar";
 import { AppSidebarContainer } from "@/components/sidebar/app-sidebar-container";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { redirect } from "next/navigation";
@@ -29,12 +30,12 @@ const WorkspaceIdLayout = async ({ children, params }: Props) => {
             <SidebarTrigger className="pt-3" />
           </div>
 
-          {/* <Navbar 
+          <Navbar 
             id={data?.id}
             name={data?.name as string}
             email={data?.email as string}
             image={data?.image as string}
-          /> */}
+          />
           <div className="p-0 md:p-4 pt-2">{children}</div>
         </main>
       </div>

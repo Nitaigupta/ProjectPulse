@@ -63,7 +63,9 @@ export const OnboardingForm = ({ name, email, image }: Props) => {
   const onSubmit = async (data: UserDataType) => {
     try {
       setPending(true);
+      console.log("hi1")
       await createUser(data);
+      console.log("hi");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong. Please try again.");
