@@ -10,7 +10,8 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { TaskPriority } from "@/lib/generated/prisma/client";
+// import { TaskPriority } from "@/lib/generated/prisma/client";
+import { TaskPriority } from "../../lib/generated/prisma";
 import { taskFormSchema } from "@/lib/schema";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -51,30 +52,31 @@ export const CreateTaskDialog = ({ project }: Props) => {
         }
     }); 
 
+    const startDate = form.watch("startDate");
+
+
     const handleOnSubmit = async (data: TaskFormValues) => {
 
         try{
             setPending(true);
             await createNewTask(data,workspaceId as string,project.id);
             toast.success("New task created successfully");
-            router.refresh()
             form.reset();
+            setOpen(false);
+            router.refresh();
         }
         catch(error){
             console.log(error);
-            toast.error("Field to create task.Please try again");
-            
-
+            toast.error("Failed to create task.Please try again");
         }
         finally{
             setPending(false)
         }
     };
 
-    // const handleOnSubmit=async (data:TaskFormValues)=>{};
 
         return (
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild >
                     <Button>
                         Create Task
@@ -167,8 +169,16 @@ export const CreateTaskDialog = ({ project }: Props) => {
                                                 </FormControl>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-auto p-0" align="start">
-                                            <Calendar mode="single" selected={field.value} onSelect={field.onChange}
-                                            disabled={(date) => date<field.value || date<new Date(new Date().setHours(0,0,0,0))}/>
+                                            {/* <Calendar mode="single" selected={field.value} onSelect={field.onChange}
+                                            disabled={(date) => date<field.value || date<new Date(new Date().setHours(0,0,0,0))}/> */}
+                                            <Calendar
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={field.onChange}
+                                                disabled={(date) =>
+                                                    date < new Date(new Date().setHours(0, 0, 0, 0))
+                                                }
+                                                />
                                             </PopoverContent>
                                         </Popover>
                                         <FormMessage/>
@@ -191,8 +201,17 @@ export const CreateTaskDialog = ({ project }: Props) => {
                                                 </FormControl>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-auto p-0" align="start">
-                                            <Calendar mode="single" selected={field.value} onSelect={field.onChange}
-                                            disabled={(date) => date<field.value || date<new Date(new Date().setHours(0,0,0,0))}/>
+                                            {/* <Calendar mode="single" selected={field.value} onSelect={field.onChange}
+                                            disabled={(date) => date<field.value || date<new Date(new Date().setHours(0,0,0,0))}/> */}
+                                            <Calendar
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={field.onChange}
+                                                disabled={(date) =>
+                                                    date < new Date(new Date().setHours(0, 0, 0, 0)) ||
+                                                    (startDate ? date < startDate : false)
+                                                }
+                                                />
                                             </PopoverContent>
                                         </Popover>
                                         <FormMessage/>

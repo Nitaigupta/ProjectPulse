@@ -13,7 +13,7 @@ export const NavProjects=({projects, workspaceMembers}:{
     const {isMobile, setOpenMobile} = useSidebar();
     const pathname = usePathname();
     return<>
-        <SidebarGroup className="group-data-[collapsible-icon]:hidden">
+        <SidebarGroup className="group-data-collapsible-icon:hidden">
             <SidebarGroupLabel className="flex justify-between">
                 <span className="text-sm font-semibold text-muted-foreground uppercase">Projects</span>
                 <CreateProjectForm workspaceMembers={workspaceMembers}/>    
@@ -24,7 +24,7 @@ export const NavProjects=({projects, workspaceMembers}:{
                         const href = `/workspace/${proj.workspaceId}/projects/${proj.id}`;
                         return(
                         <SidebarMenuItem key={proj?.id}>
-                            <SidebarMenuButton>
+                            {/* <SidebarMenuButton>
                                 <a href={href}
                                 className={pathname===href
                                     ?"text-blue-500 font-semibold"
@@ -33,7 +33,20 @@ export const NavProjects=({projects, workspaceMembers}:{
                                 >
                                     {proj?.name}
                                 </a>
+                            </SidebarMenuButton> */}
+                            <SidebarMenuButton asChild>
+                            <a
+                                href={href}
+                                className={`w-full ${
+                                pathname === href
+                                    ? "text-blue-500 font-semibold"
+                                    : "text-muted-foreground"
+                                }`}
+                            >
+                                {proj?.name}
+                            </a>
                             </SidebarMenuButton>
+
                         </SidebarMenuItem>
                     )})
                 }
