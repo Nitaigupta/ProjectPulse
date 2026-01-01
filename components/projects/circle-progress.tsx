@@ -32,7 +32,7 @@ export const CircleProgress=({title,subTitle,value,variant}:CircleProps)=>{
                     {`${Math.round(value||0)}%`}
                 </span>
             </div>
-            <p className="text-sm text-muted-foreground mt-2 items-center ">{subTitle}</p>
+            <p className="text-sm tetx-muted-foreground mt-2 items-center ">{subTitle}</p>
 
         </div>
 
