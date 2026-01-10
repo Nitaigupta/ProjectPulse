@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
-import { userRequired } from "../data/user/is-user-authenticated";
-import { AccessLevel, Prisma } from "../../lib/generated/prisma";
+import { userRequired } from "../user/is-user-authenticated";
+import { AccessLevel, Prisma } from "../../../lib/generated/prisma";
 
 export const getWorkspaceProjectsByWorkspaceId = async (
   workspaceId: string
@@ -52,7 +52,6 @@ export const getWorkspaceProjectsByWorkspaceId = async (
     ]);
 
     return { projects, workspaceMembers };
-
   } catch (error) {
     console.error(error);
     return {
