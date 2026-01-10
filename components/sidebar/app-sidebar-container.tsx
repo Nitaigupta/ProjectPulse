@@ -1,4 +1,4 @@
-import { getWorkspaceProjectsByWorkspaceId } from "@/app/data/get-workspace-project";
+import { getWorkspaceProjectsByWorkspaceId } from "@/app/data/project/get-workspace-projects";
 import { getUserById } from "@/app/data/user/get-user";
 import { AccessLevel, User } from "../../lib/generated/prisma";
 import { get } from "http";
