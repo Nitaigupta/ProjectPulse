@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import React from "react";
 import Link from "next/link";
 import { ProjectDashboard } from "@/components/projects/project-dashboard";
@@ -9,15 +7,14 @@ import { CommentProps, ProjectProps, ProjectTaskProps } from "@/utils/types";
 import { ProjectHeader } from "@/components/projects/project-header";
 import { ProjectTableContainer } from "@/components/projects/project-table-container";
 import { ProjectKanban } from "@/components/projects/project-kanban";
->>>>>>> Stashed changes
 
-import React from 'react'
-import Link from 'next/link';
-import {ProjectDashboard} from '@/components/projects/project-dashboard';
-import { getProjectDetails } from '@/app/data/get-project-details';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CommentProps, ProjectProps } from '@/utils/types';
-import { ProjectHeader } from '@/components/projects/project-header';
+// import React from 'react'
+// import Link from 'next/link';
+// import {ProjectDashboard} from '@/components/projects/project-dashboard';
+// import { getProjectDetails } from '@/app/data/get-project-details';
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+// import { CommentProps, ProjectProps } from '@/utils/types';
+// import { ProjectHeader } from '@/components/projects/project-header';
 
 interface ProjectPageProps{
     params :Promise<{workspaceId:string, projectId:string}>;
@@ -53,23 +50,6 @@ const ProjectPage = async (props:ProjectPageProps) => {
                     </Link>
                 </TabsList>
 
-<<<<<<< Updated upstream
-                <TabsContent value='dashboard'>
-                   Dashboard
-                   
-                   <ProjectDashboard project={project as unknown as ProjectProps} tasks={tasks as any} 
-                   activities={activities!} totalWorkspaceMembers={totalWorkspaceMembers!} comments={comments as unknown as CommentProps[]}
-                   /> 
-                </TabsContent>
-                <TabsContent value="table">
-                    <p>Tables</p>
-                </TabsContent>
-                <TabsContent value="kanban">
-                    <p>Kanban</p>
-                </TabsContent>
-            
-        </Tabs>
-=======
         <TabsContent value="dashboard">
           <ProjectDashboard
             project={project as unknown as ProjectProps}
@@ -87,7 +67,6 @@ const ProjectPage = async (props:ProjectPageProps) => {
           {/* <p>Kanban</p> */}
         </TabsContent>
       </Tabs>
->>>>>>> Stashed changes
     </div>
   )
 }

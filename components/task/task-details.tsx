@@ -43,7 +43,7 @@ export const TaskDetails=({task}:TaskProps)=>{
 
             <div className="flex items-center gap-2 ">
                 <span className="text-sm text-muted-foreground">Assignted To:</span>
-                <ProfileAvatar url={task.assignedTo.image || undefined} name={task.assignedTo.name} />
+                <ProfileAvatar url={task.assignedTo.image || undefined} name={task.assignedTo.name} size={"sm"} />
 
                 <span className="text-sm font-medium">{task.assignedTo.name}</span>
             </div>
