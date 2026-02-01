@@ -58,4 +58,14 @@ export const taskStats=[
     label:"IN REVIEW",
     color:"bg-blue-500"
   }
-]
+];
+
+export const taskStatusVariant={
+  [TaskStatus.BLOCKED]:"#ef4444",
+  [TaskStatus.COMPLETED]:"#10b981",
+  [TaskStatus.IN_PROGRESS]:"#f59e0b",
+  [TaskStatus.TODO]:"#6366f1",
+  [TaskStatus.BACKLOG]:"#ec4899",
+  [TaskStatus.IN_REVIEW]:"#a855f7",
+  default:"#6366f1"
+}

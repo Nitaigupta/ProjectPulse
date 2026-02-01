@@ -4,6 +4,8 @@ import {TaskFormValues} from "@/components/task/create-task-dialog";
 import {db} from "@/lib/db";
 import { taskFormSchema } from "@/lib/schema";
 import { userRequired } from "../data/user/is-user-authenticated";
+import { TaskStatus } from "@/lib/generated/prisma";
+import { log } from "console";
 
 export const createNewTask=async (data:TaskFormValues, workspaceId:string, projectId:string)=>{
     const {user}=await userRequired();  
@@ -54,6 +56,92 @@ export const createNewTask=async (data:TaskFormValues, workspaceId:string, proje
             data:{
                 type:"TASK_CREATED",
                 description:`created task ${validatedData.title}`,
+                projectId,
+                userId:user.id,} 
+            });
+                
+        return {success:true};
+    }
+
+    export const updateTaskPosition=async(taskId:string,newPosition:number,status:TaskStatus)=>{
+        await userRequired()
+
+       const task= await db.task.update(
+            {
+                where:{id:taskId},
+                data:{position:newPosition,status},
+            }
+        )
+        console.log(task);
+        return task;
+        
+    }
+
+
+
+    export const updateTask=async (taskId:string,data:TaskFormValues, workspaceId:string, projectId:string)=>{
+    const {user}=await userRequired();  
+    if(!user){
+        throw new Error("User must be logged in to create a task.");
+    }
+    const validatedData=taskFormSchema.parse(data);
+    const isUserMember=await db.workspaceMember.findUnique({
+        where:{
+            userId_workspaceId:{    
+                userId:user.id,
+                workspaceId
+            }
+        }
+    });  
+    
+    if(!isUserMember){
+        throw new Error("Unauthorized to create task in this workspace.");
+    }
+    // const tasks=await db.task.findMany({
+    //     where:{
+    //         projectId},
+    //     });
+
+    //     const lastTask=tasks?.filter((task)=>task.status===data.status).sort((a,b)=>b.position - a.position)[0];
+
+    //     const position=lastTask?lastTask.position+1000:1000;
+
+    const projectAccess=await db.projectAccess.findUnique({
+    where:{
+      workspaceMemberId_projectId:{
+        workspaceMemberId:isUserMember.id,
+        projectId,
+      }
+    }
+  });
+
+  if(!projectAccess){
+    throw new Error("You do not have access to this project");
+  }
+
+        const task=await db.task.update({
+            where:{id:taskId},
+            data:{
+                title:validatedData.title,
+                description:validatedData.description,
+                startDate:new Date(validatedData.startDate),
+                dueDate:new Date(validatedData.dueDate),
+                projectId,
+                assigneeId:validatedData.assigneeId || null,
+                status:validatedData.status,
+                priority:validatedData.priority,
+           
+                
+            }
+            // include:{
+            //     project:true,
+            // }
+        });
+
+        await db.activity.create({
+            data:{
+                type:"TASK_CREATED",
+                description:`updated task ${validatedData.title}`,
                 projectId,
                 userId:user.id,} 
             });
