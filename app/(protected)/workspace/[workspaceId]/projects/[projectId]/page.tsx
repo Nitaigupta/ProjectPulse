@@ -21,11 +21,12 @@ interface ProjectPageProps{
     searchParams:Promise < {[key:string]:string | string[] | undefined}>;
 }
 
-const ProjectPage = async (props:ProjectPageProps) => {
-    const {workspaceId, projectId} = await props.params;
-    const searchParams= await props.searchParams;
+const ProjectPage = async (props: ProjectPageProps) => {
+  const { workspaceId, projectId } = await props.params;
+  const searchParams = await props.searchParams;
 
-    const {project,tasks,comments,activities,totalWorkspaceMembers}=await getProjectDetails(workspaceId, projectId);
+  const { project, tasks, comments, activities, totalWorkspaceMembers } =
+    await getProjectDetails(workspaceId, projectId);
 
   return (
     <div className='flex flex-col gap-6 pb-3 px-3'>
@@ -68,7 +69,7 @@ const ProjectPage = async (props:ProjectPageProps) => {
         </TabsContent>
       </Tabs>
     </div>
-  )
-}
+  );
+};
 
-export default ProjectPage
+export default ProjectPage;

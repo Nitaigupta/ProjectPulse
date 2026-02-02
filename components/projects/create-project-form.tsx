@@ -41,6 +41,7 @@ export type ProjectDataType = z.infer<typeof projectSchema>;
 export const CreateProjectForm = ({ workspaceMembers }: Props) => {
   const workspaceId = useWorkspaceId();
   const [pending, setPending] = useState(false);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const form = useForm<ProjectDataType>({
     resolver: zodResolver(projectSchema),
@@ -55,8 +56,9 @@ export const CreateProjectForm = ({ workspaceMembers }: Props) => {
     try {
       setPending(true);
       await createNewProject(data);
-      form.reset()
+      form.reset();
       toast.success("Project Created Successfully");
+      setOpen(false);
       router.refresh();
     } catch (error) {
       console.log(error);
@@ -67,14 +69,16 @@ export const CreateProjectForm = ({ workspaceMembers }: Props) => {
   };
   return (
     <>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button size={"icon"} className="size-5">
             <Plus />
           </Button>
         </DialogTrigger>
-        <DialogContent>
-          <Card className="w-full max-w-md">
+        {/* <DialogContent> */}
+        <DialogContent className="p-0 sm:max-w-lg">
+          {/* <Card className="w-full max-w-md"> */}
+          <Card className="border-0 shadow-none p-6 space-y-6">
             <DialogHeader>
               <DialogTitle>Create New Project</DialogTitle>
             </DialogHeader>
@@ -82,7 +86,7 @@ export const CreateProjectForm = ({ workspaceMembers }: Props) => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(handleSubmit)}
-                className="space-y-5"
+                className="space-y-6"
               >
                 <FormField
                   control={form.control}
@@ -171,8 +175,14 @@ export const CreateProjectForm = ({ workspaceMembers }: Props) => {
                   />
                 </div>
 
-                <div className="flex flex-row items-center gap-4">
-                  <Button type="button" variant={"outline"} disabled={pending}>
+                {/* <div className="flex flex-row items-center gap-4"> */}
+                <div className="flex justify-end gap-3 pt-4 border-t">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    disabled={pending}
+                    onClick={() => setOpen(false)}
+                  >
                     Cancel
                   </Button>
                   <Button type="submit" disabled={pending} className="">

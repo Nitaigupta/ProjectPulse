@@ -60,7 +60,7 @@ export const WorkspaceSelector = ({
             <DropdownMenuContent
                 align="start"
                 sideOffset={4}
-                className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-[var(--radix-dropdown-menu-trigger-width)]"
+                className="w-(--radix-dropdown-menu-trigger-width) min-w-(--radix-dropdown-menu-trigger-width)"
             >
               {workspaces?.map((workspace) => (
                 <DropdownMenuItem

@@ -21,7 +21,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Car } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import {
@@ -63,9 +62,7 @@ export const OnboardingForm = ({ name, email, image }: Props) => {
   const onSubmit = async (data: UserDataType) => {
     try {
       setPending(true);
-      console.log("hi1")
       await createUser(data);
-      console.log("hi");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong. Please try again.");

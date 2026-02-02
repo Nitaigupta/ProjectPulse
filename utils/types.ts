@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
 import { AccessLevel, WorkspaceMember } from "@/lib/generated/prisma/client";
-=======
-import { AccessLevel, Task, TaskStatus, WorkspaceMember } from "../lib/generated/prisma";
->>>>>>> Stashed changes
 
 export interface WorkspaceMembersProps extends WorkspaceMember {
   user: {
