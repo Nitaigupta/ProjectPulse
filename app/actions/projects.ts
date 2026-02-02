@@ -72,3 +72,49 @@ export const createNewProject = async (data: ProjectDataType) => {
   });
   return { success: true, data: project };
 };
+
+export const postComment= async(
+  workspaceId:string,
+  projectId:string,
+
+  content:string
+)=>{
+  const {user}=await userRequired();
+  if(user===null){
+    throw new Error("User is null");
+    
+  }
+  const isMemeber=await db.workspaceMember.findUnique({
+    where:{
+      userId_workspaceId:{
+        userId:user.id,
+        workspaceId,
+
+      }
+    }
+  });
+
+  if(!isMemeber){
+    throw new Error("You are not a member of this workspace");
+  }
+
+  const projectAccess=await db.projectAccess.findUnique({
+    where:{
+      workspaceMemberId_projectId:{
+        workspaceMemberId:isMemeber.id,
+        projectId,
+      }
+    }
+  });
+
+  if(!projectAccess){
+    throw new Error("You do not have access to this project");
+  }
+
+  const comment=await db.comment.create({
+    data:{
+      content,projectId,userId:user.id,
+    }
+  });
+  return comment;
+}

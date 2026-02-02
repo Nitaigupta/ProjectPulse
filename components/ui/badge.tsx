@@ -25,6 +25,7 @@ const badgeVariants = cva(
         BACKLOG: "bg-pink-600 text-white",
         IN_REVIEW: "bg-purple-600 text-white",
         COMPLETED: "bg-green-600 text-white",
+        BLOCKED:"bg-red-1000 text-white",
         CRITICAL: "bg-red-600 text-white",
         HIGH: "bg-orange-600 text-white",
         MEDIUM: "bg-yellow-600 text-white",
