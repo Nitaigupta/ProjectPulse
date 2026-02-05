@@ -1,4 +1,9 @@
-import { AccessLevel, WorkspaceMember } from "@/lib/generated/prisma/client";
+import {
+  AccessLevel,
+  Task,
+  TaskStatus,
+  WorkspaceMember,
+} from "@/lib/generated/prisma/client";
 
 export interface WorkspaceMembersProps extends WorkspaceMember {
   user: {
@@ -46,21 +51,20 @@ export interface WorkspaceProps {
   };
 }
 
-export interface CommentProps extends Comment{
-  user:{id:string;name:string;image:string};
+export interface CommentProps extends Comment {
+  user: { id: string; name: string; image: string };
 }
 
 export interface ProjectTaskProps extends Task {
-  assignedTo:{
-    id:string;
-    name:string;
-    image?:string;
-
+  assignedTo: {
+    id: string;
+    name: string;
+    image?: string;
   };
-  project:{id:string;name:string};
+  project: { id: string; name: string };
 }
-export interface Column{
-  id:TaskStatus;
-  title:string;
-  tasks:ProjectTaskProps[];
+export interface Column {
+  id: TaskStatus;
+  title: string;
+  tasks: ProjectTaskProps[];
 }

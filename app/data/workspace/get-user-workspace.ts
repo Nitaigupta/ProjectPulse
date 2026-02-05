@@ -23,7 +23,6 @@ export const getUserWorkspaces = async () => {
 
     return { data: workspaces };
   } catch (error) {
-    console.log(error);
     return {
       success: false,
       error: true,

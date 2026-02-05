@@ -6,6 +6,9 @@ import { workspaceSchema } from "@/lib/schema";
 import { db } from "@/lib/db";
 import { generateInviteCode } from "@/utils/get-invite-code";
 import { success } from "zod";
+import { AccessLevel } from "@/lib/generated/prisma";
+import { redirect } from "next/dist/server/api-utils";
+import { RedirectType } from "next/navigation";
 
 export const createNewWorkspace = async (data: CreateWorkspaceDataType) => {
   try {
@@ -37,4 +40,89 @@ export const createNewWorkspace = async (data: CreateWorkspaceDataType) => {
       error: "An error occurred while creating the workspace",
     };
   }
+};
+
+export const updateWorkspace = async (
+  workspaceId: string,
+  data: CreateWorkspaceDataType,
+) => {
+  const { user } = await userRequired();
+
+  const validateData = workspaceSchema.parse(data);
+
+  const isUserAMember = await db.workspaceMember.findUnique({
+    where: {
+      userId_workspaceId: {
+        userId: user?.id || "",
+        workspaceId: workspaceId,
+      },
+    },
+  });
+
+  if (!isUserAMember) {
+    throw new Error("You are not a member of this workspace");
+  }
+
+  await db.workspace.update({
+    where: { id: workspaceId },
+    data: {
+      name: validateData.name,
+      description: validateData.description || "",
+    },
+  });
+
+  return { success: true };
+};
+
+export const resetWorkspaceInviteCode = async (workspaceId: string) => {
+  const { user } = await userRequired();
+
+  const isUserAMember = await db.workspaceMember.findUnique({
+    where: {
+      userId_workspaceId: {
+        userId: user?.id || "",
+        workspaceId: workspaceId,
+      },
+    },
+  });
+
+  if (!isUserAMember) {
+    throw new Error("You are not a member of this workspace");
+  }
+
+  await db.workspace.update({
+    where: { id: workspaceId },
+    data: {
+      inviteCode: generateInviteCode(),
+    },
+  });
+};
+
+export const deleteWorkspace = async (workspaceId: string) => {
+  const { user } = await userRequired();
+
+  const isUserAMember = await db.workspaceMember.findUnique({
+    where: {
+      userId_workspaceId: {
+        userId: user?.id || "",
+        workspaceId: workspaceId,
+      },
+    },
+  });
+
+  if (!isUserAMember) {
+    throw new Error("You are not a member of this workspace");
+  }
+
+  if (isUserAMember && isUserAMember.accessLevel != AccessLevel.OWNER) {
+    throw new Error("only the owner can delete a workspace");
+  }
+
+  await db.workspace.delete({
+    where: {
+      id: workspaceId,
+    },
+  });
+
+  return { success: true };
 };

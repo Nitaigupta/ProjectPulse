@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
 import { DataTable } from "@/components/data-table";
-import { columns } from "@/components/projects/columns";
+import { columns, myTaskColumns } from "@/components/projects/columns";
 import { File, Project, Task, User } from "@/lib/generated/prisma";
 
-interface TaskProps extends Task {
+export interface TaskProps extends Task {
   assignedTo: User;
   project: Project;
   attachments: File[];
@@ -13,4 +13,8 @@ interface TaskProps extends Task {
 
 export const ProjectTable = ({ tasks }: { tasks: TaskProps[] }) => {
   return <DataTable columns={columns} data={tasks as any} />;
+};
+
+export const MyTaskTable = ({ tasks }: { tasks: TaskProps[] }) => {
+  return <DataTable columns={myTaskColumns} data={tasks as any} />;
 };
