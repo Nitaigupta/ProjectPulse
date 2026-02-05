@@ -102,23 +102,23 @@ export const WorkspaceSettingsForm = ({ data }: { data: DataProps }) => {
     }
   };
   const handleDelete = () => {
+    const scrollContainer = document.querySelector(
+      "[data-scroll-container]",
+    ) as HTMLElement | null;
+
+    if (scrollContainer) {
+      scrollContainer.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
     confirm({
       title: "Delete Workspace",
       message: "Are you sure you want to delete this workspace?",
       onConfirm: async () => {
         try {
-          setIsPending(true);
-          // Simulate deletion action (replace with actual deletion logic)
-          toast.success("Workspace deleted successfully!");
           await deleteWorkspace(data.id);
+          toast.success("Workspace deleted successfully!");
         } catch (error) {
-          if (error instanceof Error && error.message != "NEXT_REDIRECT") {
-            toast.error(
-              error instanceof Error
-                ? error.message
-                : "Something went wrong. Please try again.",
-            );
-          }
+          toast.error("Something went wrong. Please try again.");
         } finally {
           setIsPending(false);
         }
@@ -198,14 +198,14 @@ export const WorkspaceSettingsForm = ({ data }: { data: DataProps }) => {
             <Input
               placeholder="Enter email address"
               value={inviteEmail}
-              readOnly
+              onChange={(e) => setInviteEmail(e.target.value)}
             />
 
             <Button
               type="button"
               disabled={isPending}
               className=""
-              onClick={() => handleResetInvite()}
+              onClick={() => copyInviteLink()}
             >
               <UserPlus className="w-4 h-4 mr-2" />
               Invite
